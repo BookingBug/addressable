@@ -490,7 +490,8 @@ describe "Expansion" do
         'semi=%3B,comma=%2C,dot=.',
         'dot=.,comma=%2C,semi=%3B',
         'comma=%2C,dot=.,semi=%3B'
-      ]
+      ],
+      '{keys[semi],keys[dot],keys[comma]}' => '%3B,.,%2C'
     }
   end
   context "reserved expansion (+)" do
@@ -525,7 +526,8 @@ describe "Expansion" do
         'semi=;,comma=,,dot=.',
         'dot=.,comma=,,semi=;',
         'comma=,,dot=.,semi=;'
-      ]
+      ],
+      '{+keys[semi],keys[dot],keys[comma]}' => ';,.,,'
     }
   end
   context "fragment expansion (#)" do
@@ -555,7 +557,8 @@ describe "Expansion" do
         '#semi=;,comma=,,dot=.',
         '#dot=.,comma=,,semi=;',
         '#comma=,,dot=.,semi=;'
-      ]
+      ],
+      '{#keys[semi],keys[dot],keys[comma]}' => '#;,.,,'
     }
   end
   context "label expansion (.)" do
@@ -587,7 +590,8 @@ describe "Expansion" do
         'X.comma=%2C.dot=..semi=%3B'
       ],
       'X{.empty_keys}' => 'X',
-      'X{.empty_keys*}' => 'X'
+      'X{.empty_keys*}' => 'X',
+      '{.keys[semi],keys[dot],keys[comma]}' => '.%3B...%2C'
     }
   end
   context "path expansion (/)" do
@@ -619,7 +623,8 @@ describe "Expansion" do
         '/semi=%3B/comma=%2C/dot=.',
         '/dot=./comma=%2C/semi=%3B',
         '/comma=%2C/dot=./semi=%3B'
-      ]
+      ],
+      '{/keys[semi],keys[dot],keys[comma]}' => '/%3B/./%2C'
     }
   end
   context "path-style expansion (;)" do
@@ -650,7 +655,9 @@ describe "Expansion" do
         ';semi=%3B;comma=%2C;dot=.',
         ';dot=.;comma=%2C;semi=%3B',
         ';comma=%2C;dot=.;semi=%3B'
-      ]
+      ],
+      '{;keys[semi],keys[dot],keys[comma]}' =>
+        ';keys[semi]=%3B;keys[dot]=.;keys[comma]=%2C'
     }
   end
   context "form query expansion (?)" do
@@ -678,7 +685,9 @@ describe "Expansion" do
         '?semi=%3B&comma=%2C&dot=.',
         '?dot=.&comma=%2C&semi=%3B',
         '?comma=%2C&dot=.&semi=%3B'
-      ]
+      ],
+      '{?keys[semi],keys[dot],keys[comma]}' =>
+        '?keys[semi]=%3B&keys[dot]=.&keys[comma]=%2C'
     }
   end
   context "form query expansion (&)" do
@@ -706,7 +715,9 @@ describe "Expansion" do
         '&semi=%3B&comma=%2C&dot=.',
         '&dot=.&comma=%2C&semi=%3B',
         '&comma=%2C&dot=.&semi=%3B'
-      ]
+      ],
+      '{&keys[semi],keys[dot],keys[comma]}' =>
+        '&keys[semi]=%3B&keys[dot]=.&keys[comma]=%2C'
     }
   end
   context "non-string key in match data" do

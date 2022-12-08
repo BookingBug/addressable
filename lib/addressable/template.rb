@@ -34,7 +34,7 @@ module Addressable
 
     variable_char_class =
       Addressable::URI::CharacterClasses::ALPHA +
-      Addressable::URI::CharacterClasses::DIGIT + '_'
+      Addressable::URI::CharacterClasses::DIGIT + '_' + '\[\]'
 
     var_char =
       "(?:(?:[#{variable_char_class}]|%[a-fA-F0-9][a-fA-F0-9])+)"
@@ -791,6 +791,10 @@ module Addressable
       return_value = varlist.split(',').inject([]) do |acc, varspec|
         _, name, modifier = *varspec.match(VARSPEC)
         value = mapping[name]
+        if !value
+          nested = name.match(/(.*)\[(.*)\]/)
+          value = mapping.dig(nested[1], nested[2]) if nested
+        end
         unless value == nil || value == {}
           allow_reserved = %w(+ #).include?(operator)
           # Common primitives where the .to_s output is well-defined
